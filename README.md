@@ -1,2 +1,2 @@
 # alignfix
-CSE 185 Final Project: A seed and extend aligner for short reads
+CSE 185: Advanced Bioinformatics Lab Final Project
