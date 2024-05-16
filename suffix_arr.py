@@ -17,7 +17,7 @@ class SA:
 
         return self.suffix_arr[index]
 
-    def 
+    def
 
 
 
