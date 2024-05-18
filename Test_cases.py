@@ -1,4 +1,4 @@
-from suffix_array import SA
+from suffix_arr import SA
 
 def test_suffix_array():
     sa = SA("")
