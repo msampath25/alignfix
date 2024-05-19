@@ -1,5 +1,6 @@
 from suffix_arr import SA
 
+
 def test_suffix_array():
     sa = SA("")
     assert list(sa.suffix_arr) == [0]
@@ -30,7 +31,7 @@ def test_suffix_array():
 
     sa = SA("thequickbrownfoxjumpsoverthelazydog")
     assert list(sa.suffix_arr) == [
-        35, 29, 8, 6, 32, 27, 2, 23, 13, 34, 26, 1, 5, 16, 7, 28, 18, 12, 33, 21, 
+        35, 29, 8, 6, 32, 27, 2, 23, 13, 34, 26, 1, 5, 16, 7, 28, 18, 12, 33, 21,
         10, 14, 19, 3, 9, 24, 20, 25, 0, 4, 17, 22, 11, 15, 31, 30
     ]
 
@@ -41,5 +42,6 @@ def test_suffix_array():
     assert list(sa.suffix_arr) == [10, 9, 1, 0, 8, 2, 3, 6, 4, 7, 5]
 
     print("All test cases passed!")
+
 
 test_suffix_array()
