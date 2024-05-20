@@ -29,6 +29,19 @@ class SA:
         indices : numpy array
             An array of integers indicating the positions of suffixes in db that are lexicographically sorted
         """
+        
+        # Suggested replacement
+        """""""""""""""""""""
+        suffixes = np.array([self.db[i:] for i in range(len(self.db))])
+        indices = np.zeros(len(self.db), dtype=int)
+
+        sorted_indices = np.argsort(suffixes)
+        for i in range(len(sorted_indices)):
+            indices[i] = sorted_indices[i]
+
+        return indices
+        """""""""""""""""""""
+        
         suffixes = np.zeros(len(self.db))
         indices = np.zeros(len(self.db))
 
@@ -136,8 +149,8 @@ class SA:
             The position in which the last occurrence of a pattern in the suffix_arr array is found
         """
         self.db += "$"
-        first_seed = self.__searchFirstIndex__(self, word)
-        last_seed = self.__searchLastIndex__(self, word)
+        first_seed = self.__searchFirstIndex__(self, word) """""""""""""""""""""first_seed = self.__searchFirstIndex__(self, word)"""""""""""""""""""""
+        last_seed = self.__searchLastIndex__(self, word) """""""""""""""""""""last_seed = self.__searchLastIndex__(first_seed, word)"""""""""""""""""""""
         return first_seed, last_seed
 
 
