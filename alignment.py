@@ -14,10 +14,33 @@ Definitions:
 """
 class Alignment:
 
-    def __init__(self, db):
-        self.db = db
-    def align(self, seed, l, r):
-        str = "bing bong"
+    def __init__(self, db_truncated, query, seed, l, r):
+        """
+        Constructor for the Alignment class
+
+        Parameters
+        ----------
+        db_truncated : string
+            the genome or database that we want to align to, this should already be processed so we dont have to store
+            the whole databse in memory
+        query : string
+            the read that we will align to the database
+        Returns
+        -------
+        void
+        """
+        self.db = db_truncated
+        self.query = query
+        self.seed = seed
+        self.l = l
+        self.r = r
+
+
+    def
+
+    def align(self):
+        # I want to make an alignment of bottom and then upper
+        # Then concatenate all alignments in the following wat upper + (seed) + bottom
 
         #I want to make an alignment
 
