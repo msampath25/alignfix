@@ -12,7 +12,7 @@ Definitions:
       making memory considerations
     
 """
-class Alignment:
+class Alignment(object):
 
     def __init__(self, db_truncated, query, seed, l, r):
         """
@@ -34,15 +34,34 @@ class Alignment:
         self.seed = seed
         self.l = l
         self.r = r
+        self.upper_alignment, self.lower_alignment = self.__position__()
 
 
-    def
+
+    def __position__(self):
+        for i in range(len(self.query) - self.l + 1):
+            if self.query[i:i + self.l] == self.db[self.seed: self.seed+self.l]:
+                return i, i + self.l
+
+
+    def __bottomAlignment__(self):
+        n = self.db[self.seed:]
+        m = self.query[self.lower_alignment:]
+        dp = np.zeros([len(m) + 1, len(n) + 1])
+
+        for i in range(1 , len(m) + 1):
+            dp[i][0] = dp[i-1][0] - 1
+
+        for j in range(1, len(n) + 1):
+            dp[0][j] = dp[0][j-1] -1
+
+        #I have to define a scoring function
+        for i in range(1, len(n) + 1):
+            for j in range(1, len(n) + 1):
+                dp[i][j] = 1
 
     def align(self):
-        # I want to make an alignment of bottom and then upper
-        # Then concatenate all alignments in the following wat upper + (seed) + bottom
 
-        #I want to make an alignment
 
 
 

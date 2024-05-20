@@ -19,6 +19,7 @@ def test_suffix_array():
     # Test case 3: String with no matches
     db3 = "abcdefg"
     sa3 = SA(db3)
+
     assert sa3.Seeds("hij") == (-42, -69)
     assert sa3.Seeds("efh") == (-42, -69)
     

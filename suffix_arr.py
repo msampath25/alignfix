@@ -1,6 +1,6 @@
 import numpy as np
 
-class SA:
+class SA(object):
     def __init__(self, db):
         """
         Constructor for Suffix Array
