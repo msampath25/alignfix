@@ -13,7 +13,7 @@ class SA:
         -------
         void
         """
-        self.db = db
+        self.db = db + "$"
         self.suffix_arr = self.__populate__()
 
     def __populate__(self):
@@ -42,7 +42,7 @@ class SA:
         return indices
         """""""""""""""""""""
         
-        suffixes = np.zeros(len(self.db))
+        suffixes = np.empty(len(self.db), dtype="object")
         indices = np.zeros(len(self.db))
 
         for i in range(len(self.db)):
@@ -70,25 +70,27 @@ class SA:
             The position in which the first occurrence of a pattern in the suffix_arr array is found
         """
         low = 0
-        high = len(self.db) - 1
+        high = len(self.suffix_arr) - 1
         mid = -1
         first = -42
         while low <= high:
             mid = (low + high) // 2
-            if self.db[mid:mid + len(word)] == word:
+            if self.db[int(self.suffix_arr[mid]):int(self.suffix_arr[mid] + len(word))] == word:
                 low = mid
                 mid -= 1
-                while self.db[mid:mid + len(word)] == word:
+                while self.db[int(self.suffix_arr[mid]):int(self.suffix_arr[mid] + len(word))] == word:
                     low = mid
                     mid -= 1
                 first = low
                 break
-            elif self.db[mid:mid + len(word)] < word:
+            elif self.db[int(self.suffix_arr[mid]):int(self.suffix_arr[mid] + len(word))] < word:
                 low = mid + 1
             else:
                 high = mid - 1
 
-        if word == self.db[first:first + len(word)]:
+        if first == -42:
+            return first
+        elif word == self.db[int(self.suffix_arr[first]):int(self.suffix_arr[first] + len(word))]:
             return first
         else:
             return -42
@@ -109,24 +111,28 @@ class SA:
             The position in which the last occurrence of a pattern in the suffix_arr array is found
         """
         low = first + 1
-        high = len(self.db) - 1
+        high = len(self.suffix_arr) - 1
         mid = -1
-        last = -42
+        last = -69
         while low <= high:
             mid = (low + high) // 2
-            if self.db[mid:mid + len(word)] == word:
+            if self.db[int(self.suffix_arr[mid]):int(self.suffix_arr[mid] + len(word))] == word:
                 high = mid
                 mid += 1
-                while self.db[mid:] == word:
-                    high = mid
-                    mid += 1
+                if mid < len(self.suffix_arr):
+                    while self.db[int(self.suffix_arr[mid]):int(self.suffix_arr[mid] + len(word))] == word and mid < len(self.suffix_arr):
+                        high = mid
+                        mid += 1
                 last = high
                 break
-            elif self.db[mid:] < word:
+            elif self.db[int(self.suffix_arr[mid]):int(self.suffix_arr[mid] + len(word))] < word:
                 low = mid + 1
             else:
                 high = mid - 1
-        if word == self.db[first:]:
+
+        if last == -69:
+            return last
+        if word == self.db[int(self.suffix_arr[last]): int(self.suffix_arr[last] + len(word))]:
             return last
         else:
             return -69
@@ -148,9 +154,12 @@ class SA:
         last_seed : integer
             The position in which the last occurrence of a pattern in the suffix_arr array is found
         """
-        self.db += "$"
-        first_seed = self.__searchFirstIndex__(self, word) """""""""""""""""""""first_seed = self.__searchFirstIndex__(self, word)"""""""""""""""""""""
-        last_seed = self.__searchLastIndex__(self, word) """""""""""""""""""""last_seed = self.__searchLastIndex__(first_seed, word)"""""""""""""""""""""
+        first_seed = self.__searchFirstIndex__(word)
+        if first_seed == -42:
+            last_seed = -69
+            return first_seed, last_seed
+
+        last_seed = self.__searchLastIndex__(first_seed, word)
         return first_seed, last_seed
 
 

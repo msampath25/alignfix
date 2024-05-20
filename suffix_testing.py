@@ -5,16 +5,16 @@ def test_suffix_array():
     # Test case 1: Simple string
     db1 = "banana"
     sa1 = SA(db1)
-    assert sa1.Seeds("ana") == (1, 3)
-    assert sa1.Seeds("na") == (2, 4)
-    assert sa1.Seeds("a") == (1, 5)
+    assert sa1.Seeds("ana") == (2, 3)
+    assert sa1.Seeds("na") == (5, 6)
+    assert sa1.Seeds("a") == (1, 3)
 
     # Test case 2: String with repeated characters
     db2 = "mississippi"
     sa2 = SA(db2)
-    assert sa2.Seeds("iss") == (1, 4)
-    assert sa2.Seeds("si") == (3, 6)
-    assert sa2.Seeds("i") == (1, 10)
+    assert sa2.Seeds("iss") == (3, 4)
+    assert sa2.Seeds("si") == (8, 9)
+    assert sa2.Seeds("i") == (1, 4)
     
     # Test case 3: String with no matches
     db3 = "abcdefg"
