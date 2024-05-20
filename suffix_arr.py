@@ -14,7 +14,7 @@ class SA:
         void
         """
         self.db = db
-        self.suffix_arr = self.populate(self)
+        self.suffix_arr = self.__populate__(self)
 
     def __populate__(self):
         """

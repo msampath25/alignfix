@@ -13,7 +13,16 @@ Definitions:
     
 """
 class Alignment:
-    def __init__(self):
-        self.str = 'bro'
+
+    def __init__(self, db):
+        self.db = db
+    def align(self, seed, l, r):
+        str = "bing bong"
+
+        #I want to make an alignment
+
+
+
+
 
 
