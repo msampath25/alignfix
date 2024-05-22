@@ -33,7 +33,7 @@ def main():
             if line.startswith("@"):
                 if read_id:
                     # Write previous alignment record
-                    sam_file.write(f"{read_id} More data goes here\n") # """Write output here"""
+                    sam_file.write(f"{read_id[:-2]} More data goes here\n") # """Write output here"""
                 read_id = line.strip().split("@")[1]
             elif len(line.strip()) > 0 and not line.startswith("+"):
                 if not sequence:
@@ -41,7 +41,7 @@ def main():
 
         # Write the last alignment record
         if read_id:
-            sam_file.write(f"{read_id} More data goes here\n") # """Write output here"""
+            sam_file.write(f"{read_id[:-2]} More data goes here\n") # """Write output here"""
 
     sam_file.close()
                 
