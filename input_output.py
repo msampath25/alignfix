@@ -29,8 +29,9 @@ def main():
     with open(args.reads_file, "r") as f:
         read_id = ""
         sequence = ""
+        line_num = 1
         for line in f:
-            if line.startswith("@"):
+            if (line_num - 1) % 4 == 0:
                 if read_id:
                     # Write previous alignment record
                     sam_file.write(f"{read_id[:-2]} More data goes here\n") # """Write output here"""
@@ -38,10 +39,11 @@ def main():
             elif len(line.strip()) > 0 and not line.startswith("+"):
                 if not sequence:
                     sequence = line.strip()
+            line_num += 1
 
         # Write the last alignment record
         if read_id:
-            sam_file.write(f"{read_id[:-2]} More data goes here\n") # """Write output here"""
+            sam_file.write(f"{read_id[-2]} More data goes here\n") # """Write output here"""
 
     sam_file.close()
                 
