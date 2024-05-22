@@ -5,20 +5,48 @@ import argparse
 
 def main():
     parse = argparse.ArgumentParser()
-
-    parse.add_argument("referce_genome") #gets the fasta file that is the reference genome
+    
+    parse.add_argument("reference_genome") #gets the fasta file that is the reference genome
     parse.add_argument("reads_file") #this gets the file with the reads
 
     args = parse.parse_args() #passes the arguments given by the user
 
-    with open(args.reference_genome, "r") as f: #reads the file given by the user
-        db = []
-        for line in f:
-            if not line.startswith(">") and line.strip().isalpha(): #if the line is not a header and made up of only letters
-                db.append(line.strip()) #add the line to strings
+    sam_file = open("sequence_alignment_map.sam", "w")
 
-    with open(args.reads_file, "r") as f: #reads the file given by the user
-        reads = []
+    # Write @SQ headers
+    with open(args.reference_genome, "r") as f:
+        for line in f:            
+            if line.startswith(">"):
+                seq_name = line.strip().split(">")[1]
+                seq_length = len(f.readline().strip())
+                sam_file.write(f"@SQ\tSN:{seq_name}\tLN:{seq_length}\n")
+
+    # Write @HD and @PG headers
+    sam_file.write("@HD\tVN:1.5\tSO:unsorted\tGO:query\n")
+    sam_file.write(f"@PG\tID:bwa\tPN:bwa\tVN:0.7.17-r1198-dirty\tCL:bwa mem {args.reference_genome} {args.reads_file}\n")
+
+    # Write alignment records
+    with open(args.reads_file, "r") as f:
+        read_id = ""
+        sequence = ""
+        quality = ""
         for line in f:
-            if not line.startswith(">") and line.strip().isalpha(): #if the line is not a header and made up of only letters
-                reads.append(line.strip()) #add the line to strings
+            if line.startswith("@"):
+                if read_id:
+                    # Write previous alignment record
+                    sam_file.write("Alignments go here\n") # """Write output here"""
+                read_id = line.strip().split("@")[1]
+            elif len(line.strip()) > 0 and not line.startswith("+"):
+                if not sequence:
+                    sequence = line.strip()
+                else:
+                    quality = line.strip()
+
+        # Write the last alignment record
+        if read_id:
+            sam_file.write("Alignments go here\n") # """Write output here"""
+
+    sam_file.close()
+                
+if __name__ == "__main__":
+    main()
