@@ -15,11 +15,17 @@ def main():
 
     # Write @SQ headers
     with open(args.reference_genome, "r") as f:
-        for line in f:            
+        seq_length = 0
+        for line in f:
             if line.startswith(">"):
+                if seq_length > 0:
+                    sam_file.write(f"@SQ\tSN:{seq_name}\tLN:{seq_length}\n")
+                    seq_length = 0
                 seq_name = line.strip().split(">")[1]
-                seq_length = len(f.readline().strip())
-                sam_file.write(f"@SQ\tSN:{seq_name}\tLN:{seq_length}\n")
+            else:
+                seq_length += len(line.strip())
+        if seq_length > 0:
+            sam_file.write(f"@SQ\tSN:{seq_name}\tLN:{seq_length}\n")
 
     # Write @HD and @PG headers
     sam_file.write("@HD\tVN:1.5\tSO:unsorted\tGO:query\n")
