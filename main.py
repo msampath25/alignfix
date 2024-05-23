@@ -1,25 +1,7 @@
 import argparse
 
-
-def main():
-
-    parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner')
-    parser.add_argument('-g', '--genome')
-    parser.add_argument('-q', '--query')
-    parser.add_argument('-o', '--output')
-
-    args = parser.parse_args()
+def __outputFile__(args):
     sam_file = open(args.output, "w")
-
-    # for each query in the query file
-        #create a suffix array and find seeds
-    # for each seed
-        # do an alignment
-        # keep track of maximum scoring alignment
-    # output the alignment to some file
-
-
-    # Write @SQ headers
     with open(args.genome, "r") as f:
         seq_length = 0
         for line in f:
@@ -58,6 +40,28 @@ def main():
             sam_file.write(f"{read_id[-2]} More data goes here\n") # """Write output here"""
 
     sam_file.close()
+def main():
+    """
+     for each query in the query file
+        create a suffix array and find seeds
+        for each seed
+            compute an alignment
+            keep track of highest scoring alignment
+        store optimal alignment and its score
+     output the alignment to some file
+    """
+    #Setting up parser -> this can stay here
+    parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner')
+    parser.add_argument('-g', '--genome')
+    parser.add_argument('-q', '--query')
+    parser.add_argument('-o', '--output')
+    args = parser.parse_args()
+
+
+    __outputFile__(args)
+    return 0
+
+
                 
 if __name__ == "__main__":
     main()
