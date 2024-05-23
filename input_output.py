@@ -1,20 +1,26 @@
 import argparse
-#deals with the input and output filetypes
-#the they should be in this order: .fa and then .fq | we are going to be dealing with single end reads for this project
-#the output will be a .sam file
+
 
 def main():
-    parse = argparse.ArgumentParser()
-    
-    parse.add_argument("reference_genome") #gets the fasta file that is the reference genome
-    parse.add_argument("reads_file") #this gets the file with the reads
 
-    args = parse.parse_args() #passes the arguments given by the user
+    parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner')
+    parser.add_argument('-g', '--genome')
+    parser.add_argument('-q', '--query')
+    parser.add_argument('-o', '--output')
 
-    sam_file = open("sequence_alignment_map.sam", "w")
+    args = parser.parse_args()
+    sam_file = open(args.output, "w")
+
+    # for each query in the query file
+        #create a suffix array and find seeds
+    # for each seed
+        # do an alignment
+        # keep track of maximum scoring alignment
+    # output the alignment to some file
+
 
     # Write @SQ headers
-    with open(args.reference_genome, "r") as f:
+    with open(args.genome, "r") as f:
         seq_length = 0
         for line in f:
             if line.startswith(">"):
