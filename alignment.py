@@ -87,6 +87,7 @@ class Alignment(object):
                 t_mod = t[j - 1] + t_mod
                 return output_alignment(lower, middle, upper, curr_graph, s_mod, t_mod, s, t, i - 1, j - 1, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty)
 
+    # Inputted values must be positive, even for the penalties
     def affine_alignment(match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty, s, t):
         sl = len(s)
         tl = len(t)
