@@ -117,13 +117,11 @@ class Alignment(object):
         rev_m = reversed(m)
         rev_n = reversed(n)
         return self.affine_alignment(2, 3, 5, 2, rev_m, rev_n)
+    
     def Align(self):
         top = self.__topAlignment__()
         bottom = self.__bottomAlignment__()
         return top, bottom
-
-
-
 
 
 
