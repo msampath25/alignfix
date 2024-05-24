@@ -1,5 +1,34 @@
 from suffix_arr import SA
+import random
 
+def generate_reads1(read_length = 150, num_reads = 50):
+    with open('test_datasets/test1.fasta', 'r') as file:
+        lines = file.readlines()
+        sequence = lines[1].strip()  # Get the second line which is the sequence
+    reads = []
+    sequence_length = len(sequence)
+    for i in range(num_reads):
+        start_index = random.randint(0, sequence_length - read_length)
+        read = sequence[start_index:start_index + read_length]
+        reads.append(read)
+    return reads
+
+def generate_reads2(read_length=150, num_reads=50):
+    with open('test_datasets/test2.fasta', 'r') as file:
+        lines = file.readlines()
+        sequence = lines[1].strip()  # Get the second line which is the sequence
+    reads = []
+    sequence_length = len(sequence)
+    for i in range(num_reads):
+        start_index = random.randint(0, sequence_length - read_length)
+        read = sequence[start_index:start_index + read_length]
+        reads.append(read)
+    return reads
+
+reads1 = generate_reads1()
+reads2 = generate_reads2()
+        
+        
 
 def test_suffix_array():
     # Test case 1: Simple string
@@ -31,3 +60,7 @@ def test_suffix_array():
     print("All test cases passed!")
 
 test_suffix_array()
+
+
+
+
