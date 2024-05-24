@@ -29,13 +29,12 @@ class Alignment(object):
         self.l = l
         self.r = r
         self.upper_alignment, self.lower_alignment = self.__position__()
-
-
-
+        
     def __position__(self):
         for i in range(len(self.query) - self.l + 1):
             if self.query[i:i + self.l] == self.db[self.seed: self.seed+self.l]:
                 return i, i + self.l
+    
     def __output_alignment__(self, lower, middle, upper, curr_graph, s_mod, t_mod, s, t, i, j, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty):
         if i == 0 and j == 0:
             return s_mod, t_mod
@@ -90,12 +89,19 @@ class Alignment(object):
                 upper[i][j] = max(upper[i][j - 1] - gap_extension_penalty, middle[i][j - 1] - gap_opening_penalty)
                 middle[i][j] = max(lower[i][j], upper[i][j], middle[i - 1][j - 1] + match)
         
+        max_bottom_score = -99999
+        mbs_index = 0
+        for j in range(1, tl + 1):
+            if middle[sl][j] > max_bottom_score:
+                mbs_index = j
+                max_bottom_score = middle[sl][j]
+        
         s_mod = ""
         t_mod = ""
         curr_graph = middle
-        s_mod, t_mod = self.output_alignment(lower, middle, upper, curr_graph, s_mod, t_mod, s, t, sl, tl, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty)
+        s_mod, t_mod = output_alignment(lower, middle, upper, curr_graph, s_mod, t_mod, s, t, sl, mbs_index, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty)
         
-        return middle[sl][tl], s_mod, t_mod
+        return max_bottom_score, s_mod, t_mod
 
     def __bottomAlignment__(self):
         m = self.query[self.lower_alignment:]
@@ -111,13 +117,11 @@ class Alignment(object):
         rev_m = reversed(m)
         rev_n = reversed(n)
         return self.affine_alignment(2, 3, 5, 2, rev_m, rev_n)
+    
     def Align(self):
         top = self.__topAlignment__()
         bottom = self.__bottomAlignment__()
         return top, bottom
-
-
-
 
 
 
