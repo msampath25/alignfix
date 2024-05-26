@@ -56,6 +56,20 @@ def extractDatabase(file):
         for line in f:
             database += line.strip()
     return database
+
+def write_alignment_record(sam_file, query_name, ref_name, position, sequence):
+    mapping_quality = 255 #default
+    cigar_string = "*"
+    alignment_str = f"{query_name}\t0\t{ref_name}\t{position}\t{mapping_quality}\t{cigar_string}\t*\t0\t0\t{sequence}\t*\n"
+    sam_file.write(alignment.str)
+
+
+
+
+
+    __outputFile__(args)
+    return 0
+
 def main():
     """
      for each query in the query file
@@ -109,21 +123,6 @@ def main():
                 sequence = query
                 alignment_record = write_alignment_record(query_name, ref_name, position, sequence)
                 alignments.append(alignment_record)
-        
-def write_alignment_record(sam_file, query_name, ref_name, position, sequence):
-    mapping_quality = 255 #default
-    cigar_string = "*"
-    alignment_str = f"{query_name}\t0\t{ref_name}\t{position}\t{mapping_quality}\t{cigar_string}\t*\t0\t0\t{sequence}\t*\n"
-    sam_file.write(alignment.str)
-
-
-
-
-
-    __outputFile__(args)
-    return 0
-
-
                 
 if __name__ == "__main__":
     main()
