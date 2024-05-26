@@ -109,7 +109,7 @@ def main():
                 sequence = query
                 alignment_record = write_alignment_record(query_name, ref_name, position, sequence)
                 alignments.append(alignment_record)
-        #write the contents to the file along with the coordinates of the genome here:
+        
 def write_alignment_record(sam_file, query_name, ref_name, position, sequence):
     mapping_quality = 255 #default
     cigar_string = "*"
