@@ -14,7 +14,7 @@ function.
 The `SA` class creates a suffix array for a given database or genome string. It provides methods to find the first and last occurrences of a pattern (seed) within the suffix array.
 We have yet to create a command line usage for our project, so you will have to use the code below as a guideline.
 
-### Initializing the Suffix Array and Searching for Words
+### Initializing the Suffix Array and Searching for Patterns
 
 ```python
 from sa import SA

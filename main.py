@@ -1,4 +1,7 @@
 import argparse
+import numpy as np
+from suffix_arr import SA
+from alignment import Alignment
 
 def __outputFile__(args):
     sam_file = open(args.output, "w")
@@ -40,6 +43,19 @@ def __outputFile__(args):
             sam_file.write(f"{read_id[-2]} More data goes here\n") # """Write output here"""
 
     sam_file.close()
+def extractQueries(file):
+    queries = np.empty(dtype = 'object')
+    with open(file, "r") as f:
+        for line in f:
+            queries.append(line.strip())
+    return queries
+
+def extractDatabase(file):
+    database = ''
+    with open(file, "r") as f:
+        for line in f:
+            database += line.strip()
+    return database
 def main():
     """
      for each query in the query file
@@ -56,6 +72,42 @@ def main():
     parser.add_argument('-q', '--query')
     parser.add_argument('-o', '--output')
     args = parser.parse_args()
+
+    queries = extractQueries(args.query)
+    database = extractDatabase(args.genome)
+
+    #The shifted seed might be wrong tbh. Someone else debug it
+
+    for query in queries:
+        for i in range (0, len(query) - 15 + 1):
+            if exit:
+                break
+            sa = SA(database)
+            seeds = sa.Seeds(query)
+            # write some basic checks that the seed actually exists
+            if seeds:
+                exit = True
+            max_score = -9999
+            best_alignment = None
+            for seed in seeds:
+                if seed - 100 < 0:
+                    db_small = database[:seed + 100]
+                    shifted_seed = seed
+                else:
+                    db_small = database[seed - 100 : seed + 100]
+                    shifted_seed = len(db_small) - 100
+                l = 15
+                r = 200
+                a = Alignment(db_small, shifted_seed, l, r)
+                results = a.Align()
+                if results[1] > max_score:
+                    best_alignment = results
+
+        #write the contents to the file along with the coordinates of the genome here:
+
+
+
+
 
 
     __outputFile__(args)
