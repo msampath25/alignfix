@@ -15,12 +15,22 @@ def test_alignment():
     print(a1.__bottomAlignment__())
     assert a1.__bottomAlignment__() == (-3, '--AG', 'GTAG')
 
-    #testing topAlignment
+    #testing topAlignment -> There should be no top alignmnet since the seed starts at the 0th position in the query
     assert a1.__topAlignment__() == (0, '', '')
 
     #testing Align
     print(a1.Align())
-    assert a1.Align() == ('CGC--AG', 'CGCGTAG')
+    assert a1.Align() == (-3, 'CGC--AG', 'CGCGTAG')
+
+    db2 = 'AGCTGCGCGTAGAC'
+    q2 = 'ACTCGCAG'
+    s2 = 5
+    l = 3
+    r = len(db2)
+    a2 = Alignment(db2, q2, s2, l, r)
+
+    print(a2.Align())
+    assert a2.Align() == (-7, 'A-CT-CGC--AG', 'AGCTGCGCGTAG')
     print('All tests pass')
 
 test_alignment()

@@ -158,9 +158,13 @@ class Alignment(object):
         m = self.query[:self.upper_alignment]
         n = self.db[:self.seed]
 
-        rev_m = reversed(m)
-        rev_n = reversed(n)
-        return self.affine_alignment(2, 3, 5, 2, rev_m, rev_n)
+        rev_m = m[::-1]
+        rev_n = n[::-1]
+
+        results = self.__affine_alignment__(2, 3, 5, 2, rev_m, rev_n)
+        query_alignment = results[1][::-1]
+        db_alignment = results[2][::-1]
+        return results[0], query_alignment, db_alignment
     
     def Align(self):
         """
@@ -184,7 +188,7 @@ class Alignment(object):
         query_alignment = top[1] + self.db[self.seed: self.seed + self.l] + bottom[1]
         db_alignment = top[2] + self.db[self.seed: self.seed + self.l] + bottom[2]
         score = top[0] + bottom[0]
-        return query_alignment, db_alignment
+        return score, query_alignment, db_alignment
 
 
 

@@ -79,7 +79,7 @@ def main():
     #The shifted seed might be wrong tbh. Someone else debug it
 
     for query in queries:
-        for i in range (0, len(query) - 15 + 1):
+        for i in range(0, len(query) - 15 + 1):
             if exit:
                 break
             sa = SA(database)
