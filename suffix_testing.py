@@ -1,6 +1,9 @@
 from suffix_arr import SA
 import random
 
+chance_of_error = random.randint(0.01,0.1)
+
+
 def generate_reads1(read_length = 150, num_reads = 50):
     with open('test_datasets/test1.fasta', 'r') as file:
         lines = file.readlines()
@@ -25,8 +28,27 @@ def generate_reads2(read_length=150, num_reads=50):
         reads.append(read)
     return reads
 
-reads1 = generate_reads1()
-reads2 = generate_reads2()
+def errorProne(reads):
+    nucleotides = ["A","C","T","G"]
+    error_reads = []
+    for read in reads:
+        new_read = []
+        for nucleotide in read:
+            if random.random() < chance_of_error:
+                possible_errors = [n for n in nucleotides if n != nucleotide]
+                new_nuc = random.choice(possible_errors)
+                new_read.append(new_nucleotide)
+            else:
+                new_read.append(nucleotide)
+        error_reads.append(''.join(new_read))
+    return error_reads
+
+
+reads1 = errorProne(generate_reads1())
+reads2 = errorProne(generate_reads2())
+
+
+
         
         
 
