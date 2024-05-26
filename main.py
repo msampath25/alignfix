@@ -102,9 +102,19 @@ def main():
                 results = a.Align()
                 if results[1] > max_score:
                     best_alignment = results
-
+            if best_alignment:
+                query_name = query
+                ref_name = args.genome.split('/')[-1]
+                position = best_alignment[0]
+                sequence = query
+                alignment_record = write_alignment_record(query_name, ref_name, position, sequence)
+                alignments.append(alignment_record)
         #write the contents to the file along with the coordinates of the genome here:
-
+def write_alignment_record(sam_file, query_name, ref_name, position, sequence):
+    mapping_quality = 255 #default
+    cigar_string = "*"
+    alignment_str = f"{query_name}\t0\t{ref_name}\t{position}\t{mapping_quality}\t{cigar_string}\t*\t0\t0\t{sequence}\t*\n"
+    sam_file.write(alignment.str)
 
 
 
