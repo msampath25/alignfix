@@ -1,3 +1,46 @@
 Put all your sources here for now so we can refer to them later
 
 https://www.nlm.nih.gov/ncbi/workshops/2023-08_BLAST_evol/blast_score.html
+
+
+extraneous stuff:
+def __outputFile__(args):
+    sam_file = open(args.output, "w")
+    with open(args.genome, "r") as f:
+        seq_length = 0
+        for line in f:
+            if line.startswith(">"):
+                if seq_length > 0:
+                    sam_file.write(f"@SQ\tSN:{seq_name}\tLN:{seq_length}\n")
+                    seq_length = 0
+                seq_name = line.strip().split(">")[1]
+            else:
+                seq_length += len(line.strip())
+        if seq_length > 0:
+            sam_file.write(f"@SQ\tSN:{seq_name}\tLN:{seq_length}\n")
+
+    # Write @HD and @PG headers
+    sam_file.write("@HD\tVN:1.5\tSO:unsorted\tGO:query\n")
+    sam_file.write(f"@PG\tID:bwa\tPN:bwa\tVN:0.7.17-r1198-dirty\tCL:bwa mem {args.reference_genome} {args.reads_file}\n")
+
+    # Write alignment records
+    with open(args.reads_file, "r") as f:
+        read_id = ""
+        sequence = ""
+        line_num = 1
+        for line in f:
+            if (line_num - 1) % 4 == 0:
+                if read_id:
+                    # Write previous alignment record
+                    sam_file.write(f"{read_id[:-2]} More data goes here\n") # """Write output here"""
+                read_id = line.strip().split("@")[1]
+            elif len(line.strip()) > 0 and not line.startswith("+"):
+                if not sequence:
+                    sequence = line.strip()
+            line_num += 1
+
+        # Write the last alignment record
+        if read_id:
+            sam_file.write(f"{read_id[-2]} More data goes here\n") # """Write output here"""
+
+    sam_file.close()

@@ -2,53 +2,7 @@ import argparse
 import numpy as np
 from suffix_arr import SA
 from alignment import Alignment
-
-def __outputFile__(args):
-    sam_file = open(args.output, "w")
-    with open(args.genome, "r") as f:
-        seq_length = 0
-        for line in f:
-            if line.startswith(">"):
-                if seq_length > 0:
-                    sam_file.write(f"@SQ\tSN:{seq_name}\tLN:{seq_length}\n")
-                    seq_length = 0
-                seq_name = line.strip().split(">")[1]
-            else:
-                seq_length += len(line.strip())
-        if seq_length > 0:
-            sam_file.write(f"@SQ\tSN:{seq_name}\tLN:{seq_length}\n")
-
-    # Write @HD and @PG headers
-    sam_file.write("@HD\tVN:1.5\tSO:unsorted\tGO:query\n")
-    sam_file.write(f"@PG\tID:bwa\tPN:bwa\tVN:0.7.17-r1198-dirty\tCL:bwa mem {args.reference_genome} {args.reads_file}\n")
-
-    # Write alignment records
-    with open(args.reads_file, "r") as f:
-        read_id = ""
-        sequence = ""
-        line_num = 1
-        for line in f:
-            if (line_num - 1) % 4 == 0:
-                if read_id:
-                    # Write previous alignment record
-                    sam_file.write(f"{read_id[:-2]} More data goes here\n") # """Write output here"""
-                read_id = line.strip().split("@")[1]
-            elif len(line.strip()) > 0 and not line.startswith("+"):
-                if not sequence:
-                    sequence = line.strip()
-            line_num += 1
-
-        # Write the last alignment record
-        if read_id:
-            sam_file.write(f"{read_id[-2]} More data goes here\n") # """Write output here"""
-
-    sam_file.close()
-def extractQueries(file):
-    queries = np.empty(dtype = 'object')
-    with open(file, "r") as f:
-        for line in f:
-            queries.append(line.strip())
-    return queries
+from pyfaidx import Fasta
 
 def extractDatabase(file):
     database = ''
@@ -56,19 +10,22 @@ def extractDatabase(file):
         for line in f:
             database += line.strip()
     return database
-
-def write_alignment_record(sam_file, query_name, ref_name, position, sequence):
-    mapping_quality = 255 #default
-    cigar_string = "*"
-    alignment_str = f"{query_name}\t0\t{ref_name}\t{position}\t{mapping_quality}\t{cigar_string}\t*\t0\t0\t{sequence}\t*\n"
-    sam_file.write(alignment.str)
-
-
-
-
-
-    __outputFile__(args)
-    return 0
+def write_alignment(o_file, name, alignment):
+    with open(o_file, "a") as f:
+        f.write(">" + name + "\n")
+        f.write(alignment[2] + "\n")
+        f.write(alignment[1] + "\n")
+        f.write("Score: " + str(alignment[0]) + "\n")
+    f.close()
+    return
+def write_failure(o_file, name):
+    with open(o_file, "a") as f:
+        f.write(">" + name + "\n")
+        f.write("Query not found!!")
+        f.write("Query not found!!")
+        f.write("Score: " + str(-1) + "\n")
+    f.close()
+    return
 
 def main():
     """
@@ -80,6 +37,7 @@ def main():
         store optimal alignment and its score
      output the alignment to some file
     """
+
     #Setting up parser -> this can stay here
     parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner')
     parser.add_argument('-g', '--genome')
@@ -87,20 +45,28 @@ def main():
     parser.add_argument('-o', '--output')
     args = parser.parse_args()
 
-    queries = extractQueries(args.query)
+    # reading in the queries and database here
+    # queries is a list of patterns
+    # database is one long string
+    queries = Fasta(args.query)
     database = extractDatabase(args.genome)
 
     #The shifted seed might be wrong tbh. Someone else debug it
-
-    for query in queries:
-        for i in range(0, len(query) - 15 + 1):
+    # the case that no lmer of size 15 shows up
+    query_count = 0
+    for query in queries.keys():
+        query_count += 1
+        for i in range(0, len(queries[query]) - 15 + 1):
+            # we only want one seed per query, but we need to make sure that it does in fact exist
             if exit:
                 break
             sa = SA(database)
-            seeds = sa.Seeds(query)
+            seeds = sa.Seeds(queries[query][i:i + 15])
             # write some basic checks that the seed actually exists
-            if seeds:
+            if not -42 in seeds or not -69 in seeds:
                 exit = True
+            else:
+                continue
             max_score = -9999
             best_alignment = None
             for seed in seeds:
@@ -116,13 +82,17 @@ def main():
                 results = a.Align()
                 if results[1] > max_score:
                     best_alignment = results
-            if best_alignment:
+            print("Finished " + str(query_count) + " queries")
+            if best_alignment is not None:
                 query_name = query
-                ref_name = args.genome.split('/')[-1]
-                position = best_alignment[0]
-                sequence = query
-                alignment_record = write_alignment_record(query_name, ref_name, position, sequence)
-                alignments.append(alignment_record)
+                write_alignment(args.output, query_name, best_alignment)
+            else:
+                write_failure(args.output, query_name)
+
+
+    return 0
+
+
                 
 if __name__ == "__main__":
     main()

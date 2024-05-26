@@ -9,7 +9,7 @@ class Alignment(object):
         Parameters
         ----------
         db_truncated : string
-            the genome or database that we want to align to, this should already be processed so we dont have to store
+            the genome or database that we want to align to, this should already be processed so we don't have to store
             the whole database in memory
         query : string
             the read that we will align to the database

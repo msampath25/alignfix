@@ -9,6 +9,7 @@ Alignfix uses fast pattern matching by way of preprocessing the genome into suff
 two different alignment on either side of the seed. Alignfix uses affine gap penalties for the alignment scoring
 function. 
 
+Friday May-24 (Just a placeholder for right now)
 ## basic usage:
 
 The `SA` class creates a suffix array for a given database or genome string. It provides methods to find the first and last occurrences of a pattern (seed) within the suffix array.
@@ -24,3 +25,10 @@ suffix_array = SA('ACGT')
 
 # Search for seeds using Seeds method
 seeds = suffix_array.Seeds('GT')
+```
+
+## Command Line Arguments
+
+- `--genome`, `-g`: Fasta format of genome
+- `--query`, `q`: Fasta format of queries
+- `--output`, `-o`: File path for alignment output
