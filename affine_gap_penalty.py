@@ -1,12 +1,10 @@
 import numpy as np
 
-"""
-Scoring based on BLAST
-match_reward = 2
-mismatch_penalty = 3
-gap_opening_penalty = 5
-gap_extension_penalty = 2
-"""
+# Scoring based on BLAST
+# match_reward = 2
+# mismatch_penalty = 3
+# gap_opening_penalty = 5
+# gap_extension_penalty = 2
 def output_alignment(lower, middle, upper, curr_graph, s_mod, t_mod, s, t, i, j, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty):
     if i == 0 and j == 0:
         return s_mod, t_mod
