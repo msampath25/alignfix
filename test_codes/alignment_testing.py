@@ -34,3 +34,48 @@ def test_alignment():
     print('All tests pass')
 
 test_alignment()
+
+
+
+def additional_alignment_tests():
+    # Edge case: Empty database or query
+    db_empty = ''
+    q_empty = ''
+    s_empty = 0
+    l = 3
+    r = 0
+    a_empty = Alignment(db_empty, q_empty, s_empty, l, r)
+    assert a_empty.__position__() == (0, 0)
+    assert a_empty.__bottomAlignment__() == (0, '', '')
+    assert a_empty.__topAlignment__() == (0, '', '')
+    assert a_empty.Align() == (0, '', '')
+
+    # Identical sequences
+    db_identical = 'GATTACA'
+    q_identical = 'GATTACA'
+    s_identical = 0
+    l = 3
+    r = len(db_identical)
+    a_identical = Alignment(db_identical, q_identical, s_identical, l, r)
+    assert a_identical.Align() == (0, 'GATTACA', 'GATTACA')
+
+    # Completely different sequences
+    db_diff = 'GGGGGGG'
+    q_diff = 'TTTTTTT'
+    s_diff = 0
+    l = 3
+    r = len(db_diff)
+    a_diff = Alignment(db_diff, q_diff, s_diff, l, r)
+    assert a_diff.Align() == (-7, '-------', 'GGGGGGG')
+
+    # Complex sequences with partial overlaps
+    db_complex = 'ACTGACCTGACC'
+    q_complex = 'TGACCT'
+    s_complex = 1
+    l = 3
+    r = len(db_complex)
+    a_complex = Alignment(db_complex, q_complex, s_complex, l, r)
+    assert a_complex.Align() == (-2, 'TGACCT', 'TGACCT')
+
+additional_alignment_tests()
+
