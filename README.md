@@ -9,6 +9,8 @@ Alignfix uses fast pattern matching by way of preprocessing the genome into suff
 two different alignment on either side of the seed. Alignfix uses affine gap penalties for the alignment scoring
 function.
 
+## Install instructions
+Installation requires the Numpy library.
 
 ## Mandatory Command Line Arguments
 - `--genome`, `-g`: Fasta format of genome
