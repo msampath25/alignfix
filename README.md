@@ -10,8 +10,14 @@ two different alignment on either side of the seed. Alignfix uses affine gap pen
 function.
 
 ## Install instructions
-Installation requires the Numpy and Pyfaidx library.
-
+Installation requires the NumPy and Pyfaidx library.
+You can install the following libraries using the following command:
+```
+pip install numpy
+```
+```
+pip install pyfaidx
+```
 Navigate to the directory in which you would like to download this tool and use the following command:
 ```
 git clone https://github.com/msampath25/alignfix
