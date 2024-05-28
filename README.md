@@ -11,7 +11,7 @@ function.
 
 ## Install instructions
 Installation requires the NumPy and Pyfaidx library. You must have Python 3.7 or later versions to install NumPy and Python 3.6 or later versions to install Pyfaidx.
-You can install the following libraries using the following command:
+You can install these libraries using the following command:
 ```
 pip install numpy
 ```
