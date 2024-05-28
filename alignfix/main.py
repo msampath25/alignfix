@@ -8,6 +8,8 @@ def extractDatabase(file):
     database = ''
     with open(file, "r") as f:
         for line in f:
+            if '>' in line:
+                continue
             database += line.strip()
     return database
 def write_alignment(o_file, name, alignment):
@@ -54,43 +56,58 @@ def main():
     #The shifted seed might be wrong tbh. Someone else debug it
     # the case that no lmer of size 15 shows up
     query_count = 0
+
     for query in queries.keys():
         query_count += 1
+
+        seeds = None
         for i in range(0, len(queries[query]) - 15 + 1):
-            # we only want one seed per query, but we need to make sure that it does in fact exist
-            if exit:
-                break
             sa = SA(database)
-            seeds = sa.Seeds(queries[query][i:i + 15])
+            print('These are the l-mer matches we are looking for: ')
+            print(str(queries[query][i:i + 15]))
+            seeds = sa.Seeds(str(queries[query][i:i + 15]))
             # write some basic checks that the seed actually exists
-            if not -42 in seeds or not -69 in seeds:
-                exit = True
-            else:
+            if -42 in seeds and -69 in seeds:
                 continue
-            max_score = -9999
-            best_alignment = None
-            for seed in seeds:
-                if seed - 100 < 0:
-                    db_small = database[:seed + 100]
-                    shifted_seed = seed
-                else:
-                    db_small = database[seed - 100 : seed + 100]
-                    shifted_seed = len(db_small) - 100
-                l = 15
-                r = 200
-                a = Alignment(db_small, shifted_seed, l, r)
-                results = a.Align()
-                if results[1] > max_score:
-                    best_alignment = results
-            print("Finished " + str(query_count) + " queries")
-            if best_alignment is not None:
-                query_name = query
-                write_alignment(args.output, query_name, best_alignment)
             else:
-                write_failure(args.output, query_name)
+                break
+
+
+        #Checking to see if some lmer exists
+        if seeds is None:
+            write_failure(args.output, query_name)
+            continue
+
+        #Calculating the optimal alignment given our set of seeds
+        max_score = -9999
+        best_alignment = None
+        for seed in seeds:
+            r = int(len(queries[query]) + 50)
+            if seed - (r//2) < 0:
+                db_small = database[:int(seed + (r//2))]
+                shifted_seed = int(seed)
+            else:
+                db_small = database[int(seed - (r // 2)) : int(seed + (r // 2))]
+                shifted_seed = int(len(db_small) - (r // 2))
+            l = 15
+            a = Alignment(db_small, str(queries[query]), shifted_seed, l, r)
+            results = a.Align()
+            if results[0] > max_score:
+                best_alignment = results
+
+        #We want to write to file when we have found the optimal alignment
+        print("Finished " + str(query_count) + " queries")
+        if best_alignment is not None:
+            query_name = query
+            write_alignment(args.output, query_name, best_alignment)
+            query_name = ''
+            best_alignment = None
+        else:
+            write_failure(args.output, query_name)
 
 
     return 0
+
 
 
                 

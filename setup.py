@@ -12,7 +12,6 @@ setup(
             'alignfix=alignfix.main:main'
         ],
     },
-    description='A tool for aligning short Illumina reads to a genome based on a seed and extend method.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/msampath25/alignfix',
@@ -23,4 +22,4 @@ setup(
         'Programming Language :: Python :: 3',
         'Topic :: Scientific/Engineering :: Bio-Informatics',
     ],
-}
+)

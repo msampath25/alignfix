@@ -1,4 +1,4 @@
-from suffix_arr import SA
+from alignfix.suffix_arr import SA
 import random
 
 chance_of_error = random.randint(0.01,0.1)

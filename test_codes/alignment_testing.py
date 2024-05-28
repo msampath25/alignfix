@@ -1,4 +1,4 @@
-from alignment import Alignment
+from alignfix.alignment import Alignment
 import numpy as np
 
 def test_alignment():

@@ -29,7 +29,7 @@ class SA(object):
         indices : numpy array
             An array of integers indicating the positions of suffixes in db that are lexicographically sorted
         """
-        suffixes = np.empty(len(self.db), dtype="object")
+        suffixes = np.empty(len(self.db) , dtype="object")
         indices = np.zeros(len(self.db))
 
         for i in range(len(self.db)):
@@ -97,7 +97,7 @@ class SA(object):
         last : integer
             The position in which the last occurrence of a pattern in the suffix_arr array is found
         """
-        low = first + 1
+        low = first
         high = len(self.suffix_arr) - 1
         mid = -1
         last = -69
@@ -117,7 +117,7 @@ class SA(object):
             else:
                 high = mid - 1
 
-        if last == -69:
+        if last == -69 :
             return last
         if word == self.db[int(self.suffix_arr[last]): int(self.suffix_arr[last] + len(word))]:
             return last
@@ -147,4 +147,13 @@ class SA(object):
             return first_seed, last_seed
 
         last_seed = self.__searchLastIndex__(first_seed, word)
+        if last_seed < 0:
+            last_seed = 0
+        else:
+            last_seed = self.suffix_arr[last_seed]
+        if first_seed < 0:
+            first_seed = 0
+        else:
+            first_seed = self.suffix_arr[first_seed]
+
         return first_seed, last_seed
