@@ -84,5 +84,27 @@ def test_suffix_array():
 test_suffix_array()
 
 
+def additional_suffix_array_tests():
+    # Case sensitivity
+    db_case = "Banana"
+    sa_case = SA(db_case)
+    assert sa_case.Seeds("ana") == (1, 3)
+    assert sa_case.Seeds("ANA") == (-42, -69)
+
+    # Multiple non-contiguous positions
+    db_multi = "abcabcabc"
+    sa_multi = SA(db_multi)
+    assert sa_multi.Seeds("abc") == (0, 3)
+    assert sa_multi.Seeds("bc") == (1, 4)
+    
+    # Mixed cases and substrings
+    db_mixed = "Mississippi"
+    sa_mixed = SA(db_mixed)
+    assert sa_mixed.Seeds("issi") == (2, 4)
+    assert sa_mixed.Seeds("pi") == (9, 11)
+
+additional_suffix_array_tests()
+
+
 
 
