@@ -15,7 +15,7 @@ Installation requires the Numpy and Pyfaidx library.
 Navigate to the directory in which you would like to download this tool and use the following command:
 git clone https://github.com/msampath25/alignfix
 
-Change into that directory and install the tool so that it can be used from the command line. You can install '''alignfix''' with the following command:
+Change into that directory and install the tool so that it can be used from the command line. You can install ```alignfix``` with the following command:
 ```
 cd alignfix
 ```
