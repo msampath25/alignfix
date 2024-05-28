@@ -1,4 +1,4 @@
-# alignfix
+# alignfix (CSE 185 Project)
 
 Version: 0.1
 
