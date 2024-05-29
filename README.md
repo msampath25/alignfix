@@ -30,7 +30,7 @@ python setup.py install
 ```
 Note: if you do not have root access, you can run the commands above with additional options to install locally:
 ```
-pip install --user pyfaidx pysam
+pip install --user pyfaidx
 python setup.py install --user
 ```
 Alernatively, you can install ```alignfix``` into the home directory:
