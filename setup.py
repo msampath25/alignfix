@@ -9,7 +9,7 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'alignfix=alignfix.main:main'
+            'alignfix=alignfix.alignfix:main'
         ],
     },
     long_description=open('README.md').read(),
