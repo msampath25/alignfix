@@ -26,13 +26,15 @@ Change into that directory and install the tool so that it can be used from the 
 ```
 cd alignfix
 ```
+Once required libraries are installed, you can install ```alignfix``` with the following command: 
 ```
-python setup.py install # If you have root access
+python setup.py install
 ```
+Note: if you do not have root access, you can run the commands above with additional options to install locally:
 ```
-python setup.py install --user # If you do not have root access
+python setup.py install --user
 ```
-If the install was successful, typing ```alignfix.py --help``` should show a useful message. # Note:
+If the install was successful, typing ```alignfix --help``` should show a useful message. Note: depending on your operating system, you might need to add some commands in front for it to run.
 
 ## Mandatory Command Line Arguments
 - `--genome`, `-g`: Fasta format of genome
