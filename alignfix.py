@@ -59,7 +59,6 @@ def main():
     queries = Fasta(args.query)
     database = extractDatabase(args.genome)
 
-    #The shifted seed might be wrong tbh. Someone else debug it
     # the case that no lmer of size 15 shows up
     query_count = 0
 
@@ -78,12 +77,12 @@ def main():
             else:
                 break
 
-        #Checking to see if some lmer exists
+        # Checking to see if some lmer exists
         if seeds is None:
             write_failure(args.output, query_name)
             continue
 
-        #Calculating the optimal alignment given our set of seeds
+        # Calculating the optimal alignment given our set of seeds
         max_score = -9999
         best_alignment = None
         for seed in seeds:
@@ -100,7 +99,7 @@ def main():
             if results[0] > max_score:
                 best_alignment = results
 
-        #We want to write to file when we have found the optimal alignment
+        # We want to write to file when we have found the optimal alignment
         print("Finished " + str(query_count) + " queries")
         if best_alignment is not None:
             query_name = query
