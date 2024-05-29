@@ -63,9 +63,9 @@ Please submit a pull request with any other corrections or suggestions.
 ---
 <table>
   <tr>
-    <td>NumPy v1.26.4</td>
-    <td>pyfaidx v0.8.1.1</td>
-    <td>license MIT</td>
-    <td>:heavy_check_mark: Tests passing</td>
+    <td style="background-color: #2ecc71; color: white; padding: 5px;">NumPy v1.26.4</td>
+    <td style="background-color: #3498db; color: white; padding: 5px;">pyfaidx v0.8.1.1</td>
+    <td style="background-color: #f1c40f; color: white; padding: 5px;">license MIT</td>
+    <td style="background-color: #27ae60; color: white; padding: 5px;">:heavy_check_mark: Tests passing</td>
   </tr>
 </table>
