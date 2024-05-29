@@ -27,11 +27,10 @@ Change into that directory and install the tool so that it can be used from the 
 cd alignfix
 ```
 ```
-python setup.py install
+python setup.py install # If you have root access
 ```
-Note: if you do not have root access, you can run the commands above with additional options to install locally:
 ```
-python setup.py install --user
+python setup.py install --user # If you do not have root access
 ```
 If the install was successful, typing ```alignfix --help``` should show a useful message.
 
