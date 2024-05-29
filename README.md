@@ -54,4 +54,4 @@ To run ```alignfix``` on a small test example (using the files in this repo):
 alignfix --genome test_datasets/test1.fasta --query test_datasets/small_queries_test1.fasta --output test_output.txt
 ```
 ## File format
-The output file format is a text file.
+The output file format is a text file. Each sequence output in the text file should include the following in order: header (starts with ">"), two aligned sequences, score.
