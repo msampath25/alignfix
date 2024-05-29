@@ -7,7 +7,7 @@ setup(
     description='CSE 185 Project',
     author='Jason Chiu, Manish Sampath, Siddharth Kaipa',
     author_email='jmchiu@ucsd.edu, msampath@ucsd.edu, skaipa@ucsd.edu',
-    packages=['lib.alignfix'],
+    packages=['alignfix'],
     entry_points={
         'console_scripts': [
             'alignfix=alignfix.alignfix:main'
