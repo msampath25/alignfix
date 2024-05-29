@@ -34,7 +34,8 @@ Note: if you do not have root access, you can run the commands above with additi
 ```
 python setup.py install --user
 ```
-If the install was successful, typing ```alignfix --help``` should show a useful message. Note: depending on your operating system, you might need to add some commands in front to make your script file executable.
+If your operating system is Unix, then run ```chmod +x alignfix.py```.
+If the install was successful, typing ```alignfix --help``` should show a useful message. 
 
 ## Mandatory Command Line Arguments
 - `--genome`, `-g`: Fasta format of genome
