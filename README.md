@@ -32,7 +32,7 @@ python setup.py install # If you have root access
 ```
 python setup.py install --user # If you do not have root access
 ```
-If the install was successful, typing ```alignfix --help``` should show a useful message.
+If the install was successful, typing ```python main.py --help``` should show a useful message.
 
 ## Mandatory Command Line Arguments
 - `--genome`, `-g`: Fasta format of genome
