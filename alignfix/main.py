@@ -45,6 +45,7 @@ def main():
     parser.add_argument('-g', '--genome')
     parser.add_argument('-q', '--query')
     parser.add_argument('-o', '--output')
+    parser.add_argument('-h', '--help')
     args = parser.parse_args()
 
     # reading in the queries and database here
@@ -71,7 +72,6 @@ def main():
                 continue
             else:
                 break
-
 
         #Checking to see if some lmer exists
         if seeds is None:
@@ -105,11 +105,7 @@ def main():
         else:
             write_failure(args.output, query_name)
 
-
     return 0
-
-
-
                 
 if __name__ == "__main__":
     main()
