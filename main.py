@@ -41,11 +41,10 @@ def main():
     """
 
     #Setting up parser -> this can stay here
-    parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner')
-    parser.add_argument('-g', '--genome')
-    parser.add_argument('-q', '--query')
-    parser.add_argument('-o', '--output')
-    parser.add_argument('-h', '--help')
+    parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner.\n\nThis program aligns queries against a genome using a seed-and-extend approach. It takes a genome file, a query file, and produces an output file with the alignments.')
+    parser.add_argument('-g', '--genome', help='Path to the genome file')
+    parser.add_argument('-q', '--query', help='Path to the query file')
+    parser.add_argument('-o', '--output', help='Path to the output file')
     args = parser.parse_args()
 
     # reading in the queries and database here
