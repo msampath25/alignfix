@@ -38,7 +38,7 @@ If the install was successful, typing ```alignfix --help``` should show a useful
 
 ## Mandatory Command Line Arguments
 - `--genome`, `-g`: Fasta format of genome
-- `--query`, `q`: Fasta format of queries
+- `--query`, `-q`: Fasta format of queries
 - `--output`, `-o`: File path for alignment output
 
 ## basic usage:
