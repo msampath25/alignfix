@@ -47,6 +47,11 @@ def main():
     parser.add_argument('-o', '--output', help='Path to the output file')
     args = parser.parse_args()
 
+    # Check if the required arguments are provided
+    if not args.genome or not args.query or not args.output:
+        parser.print_help()
+        return 1
+    
     # reading in the queries and database here
     # queries is a list of patterns
     # database is one long string
