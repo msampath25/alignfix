@@ -47,8 +47,6 @@ class Alignment(object):
         i + self.l : integer
             the end position of the seed in the query
         """
-        print('This is the seed')
-        print(self.db[self.seed: self.seed + self.l])
         for i in range(len(self.query) - self.l + 1):
             #print('These are queries we want the position of')
             #print(str(self.query[i:i + self.l]))
