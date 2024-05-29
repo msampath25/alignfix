@@ -37,7 +37,6 @@ Alernatively, you can install ```alignfix``` into the home directory:
 ```
 python setup.py install --prefix=$HOME
 ```
-If your operating system is Unix, then run ```chmod +x alignfix.py```.
 If the install was successful, typing ```alignfix --help``` should show a useful message. 
 
 ## Mandatory Command Line Arguments
@@ -47,10 +46,10 @@ If the install was successful, typing ```alignfix --help``` should show a useful
 
 ## Basic usage:
 The basic usage of ```alignfix``` is:
-```unix
-alignfix [--genome GENOME] [--query QUERY] [--output OUTPUT]
+```
+alignfix [--genome genome.fasta] [--query queries.fasta] [--output output.txt]
 ```
 ### Ex:
-```unix
+```
 alignfix --genome test_datasets/test1.fasta --query test_datasets/small_queries_test.fasta --output test_output.txt
 ```
