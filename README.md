@@ -28,6 +28,15 @@ cd alignfix
 ```
 Once required libraries are installed, you can install ```alignfix``` with the following command: 
 ```
+python setup.py install
+```
+Note: if you do not have root access, you can run the commands above with additional options to install locally:
+```
+pip install --user pyfaidx pysam
+python setup.py install --user
+```
+Alernatively, you can install ```alignfix``` into the home directory:
+```
 python setup.py install --prefix=$HOME
 ```
 If your operating system is Unix, then run ```chmod +x alignfix.py```.
