@@ -40,7 +40,7 @@ def main():
      output the alignment to some file
     """
 
-    #Setting up parser -> this can stay here
+    # Setting up parser -> this can stay here
     parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner.\n\nThis program aligns queries against a genome using a seed-and-extend approach. It takes a genome file, a query file, and produces an output file with the alignments.')
     parser.add_argument('-g', '--genome', help='Path to the genome file')
     parser.add_argument('-q', '--query', help='Path to the query file')
