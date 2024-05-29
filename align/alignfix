@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ ! $@ ]]; then
-    python -m alignfix -h
+    python3 -m alignfix -h
 else
-    python -m alignfix $@
+    python3 -m alignfix $@
 fi
