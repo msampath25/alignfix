@@ -7,6 +7,20 @@ from pyfaidx import Fasta
 import os
 import sys
 
+def print_error(msg):
+    """
+   Writing an error message
+
+   Parameters
+   ----------
+   msg : string
+       the error message to be printed
+   Returns
+   -------
+   void
+   """
+    sys.stderr.write("[ERROR]: {msg}\n".format(msg=msg))
+    sys.exit(1)
 def extractDatabase(file):
     """
     Extracting the database
@@ -20,6 +34,8 @@ def extractDatabase(file):
     database: string
         the contents of the genome file concatenated into a string
     """
+    if not os.path.exists(file):
+        print_error("The input genome file does not exist!")
     database = ''
     with open(file, "r") as f:
         for line in f:
@@ -89,20 +105,7 @@ def write_failure(o_file, name, query_count):
         f.write("Score: " + str(-1) + "\n")
     f.close()
     return
-def print_error(msg):
-    """
-   Writing an error message
 
-   Parameters
-   ----------
-   msg : string
-       the error message to be printed
-   Returns
-   -------
-   void
-   """
-    sys.stderr.write("[ERROR]: {msg}\n".format(msg=msg))
-    sys.exit(1)
 def main():
 
     # parser
@@ -128,6 +131,8 @@ def main():
     # reading in the queries and database here
     # queries is a list of patterns
     # database is one long string
+    if not os.path.exists(args.query):
+        print("The input query file does not exist!")
     queries = Fasta(args.query)
     database = extractDatabase(args.genome)
 
