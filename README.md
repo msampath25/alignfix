@@ -49,7 +49,9 @@ The basic usage of ```alignfix``` is:
 ```
 alignfix [--genome genome.fasta] [--query queries.fasta] [--output output.txt]
 ```
-### Ex:
+To run ```alignfix``` on a small test example (using the files in this repo):
 ```
-alignfix --genome test_datasets/test1.fasta --query test_datasets/small_queries_test.fasta --output test_output.txt
+alignfix --genome test_datasets/test1.fasta --query test_datasets/small_queries_test1.fasta --output test_output.txt
 ```
+## File format
+The output file format is a text file.
