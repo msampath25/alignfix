@@ -45,9 +45,10 @@ If the install was successful, typing ```alignfix --help``` should show a useful
 - `--query`, `-q`: Fasta format of queries
 - `--output`, `-o`: File path for alignment output
 
-## basic usage:
+## Basic usage:
+The basic usage of ```alignfix``` is:
 ```unix
-alignfix --genome req1 --query req2 --output req3
+alignfix [--genome GENOME] [--query QUERY] [--output OUTPUT]
 ```
 ### Ex:
 ```unix
