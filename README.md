@@ -14,8 +14,6 @@ Installation requires the NumPy and Pyfaidx library. You must have Python 3.7 or
 You can install these libraries using the following command:
 ```
 pip install numpy
-```
-```
 pip install pyfaidx
 ```
 Navigate to the directory in which you would like to download this tool and use the following command:
