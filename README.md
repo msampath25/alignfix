@@ -40,14 +40,14 @@ python setup.py install --prefix=$HOME
 If the install was successful, typing ```python alignfix --help``` should show a useful message. 
 
 ## Mandatory Command Line Arguments
-- `--genome`, `-g`: Fasta format of genome
+- `--genome`, `-g`: Fasta format of genome (this should be a single genome)
 - `--query`, `-q`: Fasta format of queries
 - `--output`, `-o`: File path for alignment output
 
 ## Basic usage:
 The basic usage of ```alignfix``` is:
 ```
-python alignfix [--genome genome.fasta] [--query queries.fasta] [--output output.txt]
+python alignfix --genome genome.fasta --query queries.fasta --output output.txt
 ```
 To run ```alignfix``` on a small test example (using the files in this repo):
 ```
@@ -58,7 +58,9 @@ python alignfix --genome test_datasets/test1.fasta --query test_datasets/small_q
 We benchmarked are tool based...
 
 ## File format
-The output file format is a text file. Each sequence output in the text file should include the following in order: header (starts with ">"), two aligned sequences, score.
+The output file format is a text file. Each sequence output in the text file should include the following in order: 
+header (starts with ">"), two aligned sequences, score, start position, and end position. Note that the start and end
+position give the 0-based index of the database or genome sequence.
 
 ## Sources
 

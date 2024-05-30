@@ -119,7 +119,7 @@ class Alignment(object):
         curr_graph = middle
         s_mod, t_mod = self.__output_alignment__(lower, middle, upper, curr_graph, s_mod, t_mod, s, t, sl, mbs_index, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty)
         
-        return max_bottom_score, s_mod, t_mod
+        return max_bottom_score, s_mod, t_mod, mbs_index
 
     def __bottomAlignment__(self):
         """
@@ -166,7 +166,7 @@ class Alignment(object):
         results = self.__affine_alignment__(2, 3, 5, 2, rev_m, rev_n)
         query_alignment = results[1][::-1]
         db_alignment = results[2][::-1]
-        return results[0], query_alignment, db_alignment
+        return results[0], query_alignment, db_alignment, results[3]
     
     def Align(self):
         """
@@ -190,7 +190,10 @@ class Alignment(object):
         query_alignment = top[1] + self.db[self.seed: self.seed + self.l] + bottom[1]
         db_alignment = top[2] + self.db[self.seed: self.seed + self.l] + bottom[2]
         score = top[0] + bottom[0]
-        return score, query_alignment, db_alignment
+        start = self.seed - top[3]
+        end = self.seed + bottom[3]
+
+        return score, query_alignment, db_alignment, start, end
 
 
 
