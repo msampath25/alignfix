@@ -6,6 +6,7 @@ from alignment import Alignment
 from pyfaidx import Fasta
 import os
 import sys
+import time
 def print_error(msg):
     """
    Writing an error message
@@ -20,6 +21,16 @@ def print_error(msg):
    """
     sys.stderr.write("[ERROR]: {msg}\n".format(msg=msg))
     sys.exit(1)
+def output_benchmark(file, time_reading, time_aligning, query_count, query_failures):
+    percent_aligned = float(query_count - query_failures) / float(query_count)
+    with open(file, 'w') as f:
+        f.write('Time to Read Input: {:.2f} s\n'.format(time_reading))
+        f.write('Time to Align: {:.2f} seconds\n'.format(time_aligning))
+        f.write('Total Time: {:.2f} seconds\n'.format(time_reading + time_aligning))
+        f.write('Number of queries that failed: {:d}\n'.format(query_failures))
+        f.write('Percent of queries that aligned: {:.2f}\n'.format(percent_aligned))
+    return str
+
 def extractDatabase(file):
     """
     Extracting the database
@@ -115,13 +126,16 @@ def main():
     parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner.\n\nThis program aligns queries against a genome using a seed-and-extend approach. It takes a genome file, a query file, and produces an output file with the alignments.')
 
     # genome
-    parser.add_argument('-g', '--genome', help='Path to the genome file')
+    parser.add_argument('-g', '--genome', help='Path to the genome file', required=True)
 
     #query
-    parser.add_argument('-q', '--query', help='Path to the query file')
+    parser.add_argument('-q', '--query', help='Path to the query file', required=True)
 
     #output file
-    parser.add_argument('-o', '--output', help='Path to the output file')
+    parser.add_argument('-o', '--output', help='Path to the output file', required=True)
+
+    # benchmark file
+    parser.add_argument('-b', '--benchmark', help='Path to the benchmark file', required=False)
 
     args = parser.parse_args()
 
@@ -130,6 +144,16 @@ def main():
         parser.print_help()
         print_error("Please provide a genome file, a query file, and an output file.")
         return 1
+
+    # benchmark values
+    query_count = 0
+    query_failures = 0
+    time_reading = 0
+    time_aligning_outputting = 0
+
+    # start time for reading
+    start_reading = time.time()
+
 
     # queries -> pyfaidx
     if not os.path.exists(args.query):
@@ -140,7 +164,13 @@ def main():
     database = extractDatabase(args.genome)
     sa = SA(database)
 
-    query_count = 0
+    # end time for reading
+    end_reading = time.time()
+    time_reading += end_reading - start_reading
+
+    # starting time for aligning
+    start_alignment = time.time()
+
     for query in queries.keys():
 
         query_count += 1
@@ -157,6 +187,7 @@ def main():
         if seeds is None:
             query_name = query
             write_failure(args.output, query_name, query_count)
+            query_failures += 1
             continue
 
         # calculating the optimal alignment given our set of seeds
@@ -179,6 +210,7 @@ def main():
             if a.upper_alignment == -1:
                 query_name = query
                 write_failure(args.output, query_name, query_count)
+                query_failures += 1
                 continue
 
             results = a.Align()
@@ -195,7 +227,16 @@ def main():
         else:
             query_name = query
             write_failure(args.output, query_name, query_count)
+            query_failures += 1
             query_name = ''
+
+    #ending time for alignment
+    end_alignment = time.time()
+    time_aligning_outputting += end_alignment - start_alignment
+
+    if args.benchmark:
+        output_benchmark(args.benchmark, time_reading, time_aligning_outputting, query_count, query_failures)
+
     return 0
                 
 if __name__ == "__main__":
