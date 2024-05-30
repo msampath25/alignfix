@@ -1,57 +1,83 @@
 from alignfix.suffix_arr import SA
 import random
+def generate_reads2(read_length=150, num_reads=50, fasta_file='/Users/manishsampath/Desktop/UCSD_Junior/CSE_185/final_project/alignfix/test_datasets/test2.fasta'):
+    """
+    Generates random reads from a given sequence in a FASTA file.
 
-chance_of_error = random.randint(0.01,0.1)
+    Parameters:
+    read_length (int): Length of each read to generate.
+    num_reads (int): Number of reads to generate.
+    fasta_file (str): Path to the FASTA file.
 
+    Returns:
+    list: A list of generated reads.
+    """
+    db = ''
+    with open(fasta_file, 'r') as f:
+        for line in f:
+            if line.startswith('>'):
+                continue
+            else:
+                db += line.strip()
+    f.close()
 
-def generate_reads1(read_length = 150, num_reads = 50):
-    with open('test_datasets/test1.fasta', 'r') as file:
-        lines = file.readlines()
-        sequence = lines[1].strip()  # Get the second line which is the sequence
     reads = []
-    sequence_length = len(sequence)
+
     for i in range(num_reads):
-        start_index = random.randint(0, sequence_length - read_length)
-        read = sequence[start_index:start_index + read_length]
+        index = random.randint(0, int(len(db) - read_length + 1))
+        read = db[index:index + read_length]
         reads.append(read)
+
     return reads
 
-def generate_reads2(read_length=150, num_reads=50):
-    with open('test_datasets/test2.fasta', 'r') as file:
-        lines = file.readlines()
-        sequence = lines[1].strip()  # Get the second line which is the sequence
-    reads = []
-    sequence_length = len(sequence)
-    for i in range(num_reads):
-        start_index = random.randint(0, sequence_length - read_length)
-        read = sequence[start_index:start_index + read_length]
-        reads.append(read)
-    return reads
 
 def errorProne(reads):
-    nucleotides = ["A","C","T","G"]
+    """
+    Introduces errors into the reads with a specified probability.
+
+    Parameters:
+    reads (list): A list of reads.
+    chance_of_error (float): Probability of introducing an error at each nucleotide.
+
+    Returns:
+    list: A list of reads with errors introduced.
+    """
+    nucleotides = ["A", "C", "T", "G"]
     error_reads = []
+    threshold = 95
     for read in reads:
-        new_read = []
-        for nucleotide in read:
-            if random.random() < chance_of_error:
-                possible_errors = [n for n in nucleotides if n != nucleotide]
-                new_nuc = random.choice(possible_errors)
-                new_read.append(new_nucleotide)
+        new_read =''
+        for nc in read:
+            chance = random.randint(0, 99)
+            if chance > threshold:
+                new_read += nucleotides[random.randint(0, 3)]
             else:
-                new_read.append(nucleotide)
-        error_reads.append(''.join(new_read))
+                new_read += nc
+        error_reads.append(new_read)
+
     return error_reads
 
 
-reads1 = errorProne(generate_reads1())
-reads2 = errorProne(generate_reads2())
+# Example usage:
+# Generate random reads
+reads = generate_reads2(read_length=150, num_reads=50, fasta_file='/Users/manishsampath/Desktop/UCSD_Junior/CSE_185/final_project/alignfix/test_datasets/test2.fasta')
+
+# Introduce errors into the reads
+error_reads = errorProne(reads)
+with open('/Users/manishsampath/Desktop/UCSD_Junior/CSE_185/final_project/alignfix/test_datasets/reads2.fasta', 'w') as f:
+    seq_count = 1
+    for read in error_reads:
+        f.write('>seq' + str(seq_count) + '\n')
+        seq_count += 1
+        f.write(read + '\n')
+    f.close()
+
+
 
 
 
         
-        
-
+"""
 def test_suffix_array():
     # Test case 1: Simple string
     db1 = "banana"
@@ -104,7 +130,7 @@ def additional_suffix_array_tests():
     assert sa_mixed.Seeds("pi") == (9, 11)
 
 additional_suffix_array_tests()
-
+"""
 
 
 

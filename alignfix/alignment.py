@@ -52,6 +52,7 @@ class Alignment(object):
             #print(str(self.query[i:i + self.l]))
             if str(self.query[i:i + self.l]) == self.db[self.seed: self.seed + self.l]:
                 return i, i + self.l
+        return -1, -1
     
     def __output_alignment__(self, lower, middle, upper, curr_graph, s_mod, t_mod, s, t, i, j, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty):
         if i == 0 and j == 0:

@@ -163,18 +163,24 @@ def main():
         max_score = -9999
         best_alignment = None
         for seed in seeds:
-            r = int(len(queries[query]) + 50)
+            r = int(len(queries[query]) * 2)
             if seed - (r//2) < 0:
                 db_small = database[:int(seed + (r//2))]
                 shifted_seed = int(seed)
             elif seed + (r//2) > len(database):
-                db_small = database[seed - (r//2):]
+                db_small = database[int(seed - (r//2)):]
                 shifted_seed = int(seed - (r//2))
             else:
                 db_small = database[int(seed - (r // 2)) : int(seed + (r // 2))]
                 shifted_seed = int(len(db_small) - (r // 2))
             l = 15
             a = Alignment(db_small, str(queries[query]), shifted_seed, l, r)
+
+            if a.upper_alignment == -1:
+                query_name = query
+                write_failure(args.output, query_name, query_count)
+                continue
+
             results = a.Align()
             if results[0] > max_score:
                 best_alignment = results
