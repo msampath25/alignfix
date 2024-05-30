@@ -6,7 +6,6 @@ from alignment import Alignment
 from pyfaidx import Fasta
 import os
 import sys
-
 def print_error(msg):
     """
    Writing an error message
@@ -127,37 +126,35 @@ def main():
         parser.print_help()
         print_error("Please provide a genome file, a query file, and an output file.")
         return 1
-    
-    # reading in the queries and database here
-    # queries is a list of patterns
-    # database is one long string
+
+    # queries -> pyfaidx
     if not os.path.exists(args.query):
         print("The input query file does not exist!")
     queries = Fasta(args.query)
+
+    # database
     database = extractDatabase(args.genome)
+    sa = SA(database)
 
-    # the case that no lmer of size 15 shows up
     query_count = 0
-
     for query in queries.keys():
+
         query_count += 1
 
         seeds = None
         for i in range(0, len(queries[query]) - 15 + 1):
-            sa = SA(database)
             seeds = sa.Seeds(str(queries[query][i:i + 15]))
-            # write some basic checks that the seed actually exists
             if -42 in seeds and -69 in seeds:
                 continue
             else:
                 break
 
-        # Checking to see if some lmer exists ow write no query found to o file
+        # check seed exists
         if seeds is None:
             write_failure(args.output, query_name, query_count)
             continue
 
-        # Calculating the optimal alignment given our set of seeds
+        # calculating the optimal alignment given our set of seeds
         max_score = -9999
         best_alignment = None
         for seed in seeds:
@@ -165,6 +162,9 @@ def main():
             if seed - (r//2) < 0:
                 db_small = database[:int(seed + (r//2))]
                 shifted_seed = int(seed)
+            elif seed + (r//2) > len(database):
+                db_small = database[seed - (r//2):]
+                shifted_seed = int(seed - (r//2))
             else:
                 db_small = database[int(seed - (r // 2)) : int(seed + (r // 2))]
                 shifted_seed = int(len(db_small) - (r // 2))
@@ -174,7 +174,7 @@ def main():
             if results[0] > max_score:
                 best_alignment = results
 
-        # We want to write to file when we have found the optimal alignment
+        # writing results to output file
         print("Finished " + str(query_count) + " queries")
         if best_alignment is not None:
             query_name = query
@@ -182,8 +182,9 @@ def main():
             query_name = ''
             best_alignment = None
         else:
+            query_name = query
             write_failure(args.output, query_name, query_count)
-
+            query_name = ''
     return 0
                 
 if __name__ == "__main__":
