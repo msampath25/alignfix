@@ -37,7 +37,7 @@ Alernatively, you can install ```alignfix``` into the home directory:
 ```
 python setup.py install --prefix=$HOME
 ```
-If the install was successful, typing ```alignfix --help``` should show a useful message. 
+If the install was successful, typing ```python alignfix --help``` should show a useful message. 
 
 ## Mandatory Command Line Arguments
 - `--genome`, `-g`: Fasta format of genome
