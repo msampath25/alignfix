@@ -129,7 +129,7 @@ def main():
 
     # queries -> pyfaidx
     if not os.path.exists(args.query):
-        print("The input query file does not exist!")
+        print_error("The input query file does not exist!")
     queries = Fasta(args.query)
 
     # database
