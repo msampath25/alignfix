@@ -64,6 +64,8 @@ def write_alignment(o_file, name, alignment, query_count):
             f.write(alignment[2] + "\n")
             f.write(alignment[1] + "\n")
             f.write("Score: " + str(alignment[0]) + "\n")
+            f.write("Start position in database sequence: " + str(alignment[3]) + '\n')
+            f.write("End position in database sequence: " + str(alignment[4]) + '\n')
         f.close()
         return
 
@@ -153,6 +155,7 @@ def main():
 
         # check seed exists
         if seeds is None:
+            query_name = query
             write_failure(args.output, query_name, query_count)
             continue
 

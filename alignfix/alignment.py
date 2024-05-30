@@ -156,7 +156,7 @@ class Alignment(object):
         """
         #might be off by one here potentially
         if self.upper_alignment == 0 or self.seed == 0:
-            return 0, "", ""
+            return 0, "", "", 0
         m = self.query[:self.upper_alignment]
         n = self.db[:self.seed]
 
@@ -191,7 +191,7 @@ class Alignment(object):
         db_alignment = top[2] + self.db[self.seed: self.seed + self.l] + bottom[2]
         score = top[0] + bottom[0]
         start = self.seed - top[3]
-        end = self.seed + bottom[3]
+        end = self.seed + len(bottom[2])
 
         return score, query_alignment, db_alignment, start, end
 
