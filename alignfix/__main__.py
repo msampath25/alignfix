@@ -22,6 +22,25 @@ def print_error(msg):
     sys.stderr.write("[ERROR]: {msg}\n".format(msg=msg))
     sys.exit(1)
 def output_benchmark(file, time_reading, time_aligning, query_count, query_failures):
+    """
+    Outputs the benchmark results
+
+    Parameters
+    ----------
+    file: string
+        The path to the output benchmark file
+    time_reading: float
+        The time taken to read the inputs
+    time_aligning: float
+        The time taken to align the inputs
+    query_count: int
+        The number of queries in the inputs
+    query_failures: int
+        The number of queries that failed to align in the inputs
+    Returns
+    -------
+    void
+    """
     if not "\\" in file:
         directory = os.getcwd()
     else:
@@ -265,6 +284,7 @@ def main():
     end_alignment = time.time()
     time_aligning_outputting += end_alignment - start_alignment
 
+    #output benchmark file
     if args.benchmark:
         output_benchmark(args.benchmark, time_reading, time_aligning_outputting, query_count, query_failures)
 
