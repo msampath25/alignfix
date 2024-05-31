@@ -60,7 +60,13 @@ Optional arugments:
 
 ## Viral Example
 
-We benchmarked are tool based...
+We used this viral genome. You can find the data here. 
+
+This was the command we used to run the test dataset: 
+
+```
+python alignfix -g real_world_dataset/real_genome.fasta -q real_world_dataset/real_reads.fasta -o real_world_dataset/real_dataset_output.txt -b real_world_dataset/real_benchmark.txt
+```
 
 ## File format
 The output file format is a text file. Each sequence output in the text file should include the following in order: 
