@@ -30,6 +30,7 @@ def output_benchmark(file, time_reading, time_aligning, query_count, query_failu
         print_error("Directory {directory} does not exist".format(directory=directory))
         sys.exit(1)
 
+    total_time = time_reading + time_aligning
     percent_aligned = float(query_count - query_failures) / float(query_count)
     with open(file, 'w') as f:
         f.write('Time to Read Input: {:.2f} s\n'.format(time_reading))
@@ -37,6 +38,7 @@ def output_benchmark(file, time_reading, time_aligning, query_count, query_failu
         f.write('Total Time: {:.2f} seconds\n'.format(time_reading + time_aligning))
         f.write('Number of queries that failed: {:d}\n'.format(query_failures))
         f.write('Percent of queries that aligned: {:.2f}\n'.format(percent_aligned))
+    print(total_time)
     return
 
 def extractDatabase(file):
