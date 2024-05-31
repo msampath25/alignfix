@@ -22,6 +22,14 @@ def print_error(msg):
     sys.stderr.write("[ERROR]: {msg}\n".format(msg=msg))
     sys.exit(1)
 def output_benchmark(file, time_reading, time_aligning, query_count, query_failures):
+    if not "\\" in file:
+        directory = os.getcwd()
+    else:
+        directory = os.path.dirname(file)
+    if not os.path.isdir(directory):
+        print_error("Directory {directory} does not exist".format(directory=directory))
+        sys.exit(1)
+
     percent_aligned = float(query_count - query_failures) / float(query_count)
     with open(file, 'w') as f:
         f.write('Time to Read Input: {:.2f} s\n'.format(time_reading))
@@ -69,6 +77,14 @@ def write_alignment(o_file, name, alignment, query_count):
     -------
     void
     """
+    if not "\\" in o_file:
+        directory = os.getcwd()
+    else:
+        directory = os.path.dirname(o_file)
+    if not os.path.isdir(directory):
+        print_error("Directory {directory} does not exist".format(directory=directory))
+        sys.exit(1)
+
     if query_count == 1:
         with open(o_file, "w") as f:
             f.write(">" + name + "\n")
@@ -103,6 +119,14 @@ def write_failure(o_file, name, query_count):
     -------
     void
     """
+    if not "\\" in o_file:
+        directory = os.getcwd()
+    else:
+        directory = os.path.dirname(o_file)
+    if not os.path.isdir(directory):
+        print_error("Directory {directory} does not exist".format(directory=directory))
+        sys.exit(1)
+
     if query_count == 1:
         with open(o_file, "w") as f:
             f.write(">" + name + "\n")
