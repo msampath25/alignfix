@@ -29,7 +29,7 @@ def output_benchmark(file, time_reading, time_aligning, query_count, query_failu
         f.write('Total Time: {:.2f} seconds\n'.format(time_reading + time_aligning))
         f.write('Number of queries that failed: {:d}\n'.format(query_failures))
         f.write('Percent of queries that aligned: {:.2f}\n'.format(percent_aligned))
-    return str
+    return
 
 def extractDatabase(file):
     """
@@ -123,7 +123,12 @@ def write_failure(o_file, name, query_count):
 def main():
 
     # parser
-    parser = argparse.ArgumentParser(prog='alignfix', description='A seed and extends aligner.\n\nThis program aligns queries against a genome using a seed-and-extend approach. It takes a genome file, a query file, and produces an output file with the alignments.')
+    parser = argparse.ArgumentParser(prog='alignfix',
+                                     description='A seed and extends aligner.\n\nThis program aligns queries against a genome using a seed-and-extend approach. It takes a genome file, a query file, and produces an output file with the alignments.',
+                                     epilog='''\
+                                     additional information:
+                                        version: 0.1
+                                     ''')
 
     # genome
     parser.add_argument('-g', '--genome', help='Path to the genome file', required=True)
