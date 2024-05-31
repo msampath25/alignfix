@@ -55,6 +55,35 @@ class Alignment(object):
         return -1, -1
     
     def __output_alignment__(self, lower, middle, upper, curr_graph, s_mod, t_mod, s, t, i, j, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty):
+        """
+        Backtrack algorithm for the aligner
+
+        Parameters
+        ----------
+        self : object
+            the alignment object
+        upper : matrix level that represents gap extensions for n in an m x n matrix
+        middle : matrix level that represents matches and mismatches in an m x n matrix
+        lower :  matrix level that represents gap extensions for m in an m x n matrix
+        curr_graph : determines the current level when backtracking
+        s_mod : string that will become the alignment with the maximum alignment score
+        t_mod : string that will become the alignment with the maximum alignment score
+        s : nucleotide string
+        t : nucleotide string
+        i : index for s
+        j : index for t
+        match_reward : match reward
+        mismatch_penalty : mismatch penalty
+        gap_opening_penalty : gap opening penalty
+        gap_extension_penalty : gap extension penalty
+
+        Returns
+        -------
+        s_mod
+            returns the aligned string for s
+        t_mod
+            returns the aligned string for t
+        """
         if i == 0 and j == 0:
             return s_mod, t_mod
         if curr_graph is lower:
@@ -82,6 +111,24 @@ class Alignment(object):
                 return self.__output_alignment__(lower, middle, upper, curr_graph, s_mod, t_mod, s, t, i - 1, j - 1, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty)
 
     def __affine_alignment__(self, match_reward, mismatch_penalty, gap_opening_penalty, gap_extension_penalty, s, t):
+        """
+        Backtrack algorithm for the aligner
+
+        Parameters
+        ----------
+        self : object
+            the alignment object
+        match_reward : match reward
+        mismatch_penalty : mismatch penalty
+        gap_opening_penalty : gap opening penalty
+        gap_extension_penalty : gap extension penalty
+        s : nucleotide string
+        t : nucleotide string
+
+        Returns
+        -------
+        self.output_alignment() : aligned string for s, aligned string for t
+        """
         sl = len(s)
         tl = len(t)
         lower = np.full((sl + 1, tl + 1), 0, dtype=int)
