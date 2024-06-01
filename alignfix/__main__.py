@@ -248,10 +248,10 @@ def main():
         for seed in seeds:
             r = int(len(queries[query]) * 2)
             if seed - (r//2) < 0:
-                db_small = database[:int(seed + int(len(queries[query])))]
+                db_small = database[:int(seed + (r//2))]
                 shifted_seed = int(seed)
             elif seed + (r//2) > len(database):
-                db_small = database[int(seed - int(len(queries[query]))):]
+                db_small = database[int(seed - (r//2)):]
                 shifted_seed = int(seed - (r//2))
             else:
                 db_small = database[int(seed - (r // 2)) : int(seed + (r // 2))]

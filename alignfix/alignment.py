@@ -181,8 +181,8 @@ class Alignment(object):
         self.affine_alignment() : max score, alignment_s, alignment_t
             returns an alignment of the end of the seed to the rest of the query and the truncated database
         """
-        m = self.query[self.lower_alignment:]
-        n = self.db[self.seed + self.l:]
+        m = self.query[self.lower_alignment + 1:]
+        n = self.db[self.seed + self.l + 1:]
 
         return self.__affine_alignment__(2, 3, 5, 2, m, n)
 
@@ -204,14 +204,16 @@ class Alignment(object):
         if self.upper_alignment == -1:
             return 0, "", "", 0
         m = self.query[:self.upper_alignment]
-        n = self.db[:self.seed]
-
+        n = self.db[1:self.seed]
         rev_m = m[::-1]
         rev_n = n[::-1]
 
+
         results = self.__affine_alignment__(2, 3, 5, 2, rev_m, rev_n)
         query_alignment = results[1][::-1]
+        query_alignment = query_alignment[1:]
         db_alignment = results[2][::-1]
+        db_alignment = db_alignment[1:]
         return results[0], query_alignment, db_alignment, results[3]
     
     def Align(self):
@@ -233,8 +235,8 @@ class Alignment(object):
         top = self.__topAlignment__()
         bottom = self.__bottomAlignment__()
 
-        query_alignment = top[1] + self.db[self.seed: self.seed + self.l] + bottom[1]
-        db_alignment = top[2] + self.db[self.seed: self.seed + self.l] + bottom[2]
+        query_alignment = top[1] + self.db[self.seed: self.seed + self.l + 1] + bottom[1]
+        db_alignment = top[2] + self.db[self.seed: self.seed + self.l + 1] + bottom[2]
         score = top[0] + bottom[0]
         start = len(top[2])
         end = len(bottom[2])
