@@ -1,3 +1,7 @@
+# this was just a space for us to code up the affine alignmnet -> it was pretty difficult so we moved it over here for easier debugging
+# not really relevant to user
+
+
 import numpy as np
 
 # Scoring based on BLAST

@@ -48,8 +48,6 @@ class Alignment(object):
             the end position of the seed in the query
         """
         for i in range(len(self.query) - self.l + 1):
-            #print('These are queries we want the position of')
-            #print(str(self.query[i:i + self.l]))
             if str(self.query[i:i + self.l]) == self.db[self.seed: self.seed + self.l]:
                 return i, i + self.l
         return -1, -1
@@ -203,7 +201,7 @@ class Alignment(object):
             returns an alignment of the beginning of the query to the start of the seed and the truncated database
         """
         #might be off by one here potentially
-        if self.upper_alignment == 0 or self.seed == 0:
+        if self.upper_alignment == -1:
             return 0, "", "", 0
         m = self.query[:self.upper_alignment]
         n = self.db[:self.seed]
@@ -238,8 +236,9 @@ class Alignment(object):
         query_alignment = top[1] + self.db[self.seed: self.seed + self.l] + bottom[1]
         db_alignment = top[2] + self.db[self.seed: self.seed + self.l] + bottom[2]
         score = top[0] + bottom[0]
-        start = self.seed - top[3]
-        end = self.seed + len(bottom[2])
+        start = len(top[2])
+        end = len(bottom[2])
+
 
         return score, query_alignment, db_alignment, start, end
 

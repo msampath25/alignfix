@@ -74,7 +74,7 @@ with open('/Users/manishsampath/Desktop/UCSD_Junior/CSE_185/final_project/alignf
 
 
 
-
+# The unit tests worked before as expected however we changed the suffix array to return the index in the database instead of the index in array
 
         
 """

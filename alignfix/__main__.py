@@ -82,7 +82,7 @@ def extractDatabase(file):
                 continue
             database += line.strip()
     return database
-def write_alignment(o_file, name, alignment, query_count):
+def write_alignment(o_file, name, alignment, query_count, start, end):
     """
     Writing an alignment to an output file
 
@@ -112,8 +112,8 @@ def write_alignment(o_file, name, alignment, query_count):
             f.write(alignment[2] + "\n")
             f.write(alignment[1] + "\n")
             f.write("Score: " + str(alignment[0]) + "\n")
-            f.write("Start position in database sequence: " + str(alignment[3]) + '\n')
-            f.write("End position in database sequence: " + str(alignment[4]) + '\n')
+            f.write("Start position in database sequence: " + str(start) + '\n')
+            f.write("End position in database sequence: " + str(end) + '\n')
         f.close()
         return
 
@@ -122,8 +122,8 @@ def write_alignment(o_file, name, alignment, query_count):
         f.write(alignment[2] + "\n")
         f.write(alignment[1] + "\n")
         f.write("Score: " + str(alignment[0]) + "\n")
-        f.write("Start position in database sequence: " + str(alignment[3]) + '\n')
-        f.write("End position in database sequence: " + str(alignment[4]) + '\n')
+        f.write("Start position in database sequence: " + str(start) + '\n')
+        f.write("End position in database sequence: " + str(end) + '\n')
     f.close()
     return
 def write_failure(o_file, name, query_count):
@@ -243,13 +243,15 @@ def main():
         # calculating the optimal alignment given our set of seeds
         max_score = -9999
         best_alignment = None
+        start = -1
+        end = -1
         for seed in seeds:
             r = int(len(queries[query]) * 2)
             if seed - (r//2) < 0:
-                db_small = database[:int(seed + (r//2))]
+                db_small = database[:int(seed + int(len(queries[query])))]
                 shifted_seed = int(seed)
             elif seed + (r//2) > len(database):
-                db_small = database[int(seed - (r//2)):]
+                db_small = database[int(seed - int(len(queries[query]))):]
                 shifted_seed = int(seed - (r//2))
             else:
                 db_small = database[int(seed - (r // 2)) : int(seed + (r // 2))]
@@ -266,12 +268,14 @@ def main():
             results = a.Align()
             if results[0] > max_score:
                 best_alignment = results
+                start = seed - best_alignment[3]
+                end = seed + best_alignment[4] + 15
 
+        print("Processed " + str(query_count) + " so far")
         # writing results to output file
-        print("Finished " + str(query_count) + " queries")
         if best_alignment is not None:
             query_name = query
-            write_alignment(args.output, query_name, best_alignment, query_count)
+            write_alignment(args.output, query_name, best_alignment, query_count, start, end)
             query_name = ''
             best_alignment = None
         else:

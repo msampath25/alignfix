@@ -1,6 +1,7 @@
 from alignfix.alignment import Alignment
 import numpy as np
 
+#Some basic testing of just the alignment functions
 def test_alignment():
 
     db1 = 'GCGCGTAGAC'
@@ -35,7 +36,7 @@ def test_alignment():
 
 test_alignment()
 
-
+#Some more basic tests for the alignment
 
 def additional_alignment_tests():
     # Edge case: Empty database or query
