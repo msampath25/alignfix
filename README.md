@@ -60,7 +60,7 @@ Optional arugments:
 
 ## Viral Example
 
-We used this viral genome. You can find the data here. 
+We used this viral genome. You can find the data here: [Reads](https://www.ebi.ac.uk/ena/browser/view/PRJEB37886) [Genome](https://www.ncbi.nlm.nih.gov/nuccore/NC_045512.2)
 
 This was the command we used to run the test dataset: 
 
